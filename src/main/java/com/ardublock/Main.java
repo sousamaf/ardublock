@@ -1,6 +1,7 @@
 package com.ardublock;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import javax.swing.JFrame;
 import javax.xml.parsers.ParserConfigurationException;
@@ -15,6 +16,9 @@ public class Main
 {
 	public static void main(String args[]) throws SAXException, IOException, ParserConfigurationException
 	{
+		Locale swedishLocale = new Locale("pt", "BR");
+		Locale.setDefault(swedishLocale);
+
 		Main me = new Main();
 		me.startArdublock();
 	}

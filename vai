@@ -1,0 +1,7 @@
+#! /bin/sh
+cd .. && \
+cd openblocks && \
+./vai && \
+cd .. && \
+cd ardublock && \
+LC_ALL=pt_BR mvn compile exec:java -Duser.language=pt -Duser.country=BR -Duser.variant=BR -Dexec.mainClass="com.ardublock.Main"

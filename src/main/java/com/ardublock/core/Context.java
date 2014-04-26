@@ -35,7 +35,7 @@ public class Context
 	private String arduinoVersionString = ARDUINO_VERSION_UNKNOWN;
 	private OsType osType; 
 
-	final public static String APP_NAME = "ArduBlock";
+	final public static String APP_NAME = "AirBlock";
 	
 	private Editor editor;
 	
