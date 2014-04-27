@@ -6,6 +6,7 @@ import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -15,12 +16,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JToolBar;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -101,24 +104,48 @@ public class OpenblocksFrame extends JFrame
 		workspace.addWorkspaceListener(new ArdublockWorkspaceListener(this));
 		
 		JPanel buttons = new JPanel();
+		JPanel painelSuperior = new JPanel();
+		
+		JToolBar bar = new JToolBar();
 		buttons.setLayout(new FlowLayout());
-		JButton newButton = new JButton(uiMessageBundle.getString("ardublock.ui.new"));
+
+		JButton newButton = new JButton(new ImageIcon(OpenblocksFrame.class.getResource("/com/ardublock/icons/folder_add_48.png")));
+		newButton.setBorder(null);
+		newButton.setToolTipText(uiMessageBundle.getString("ardublock.ui.new"));
 		newButton.addActionListener(new NewButtonListener(this));
-		JButton saveButton = new JButton(uiMessageBundle.getString("ardublock.ui.save"));
+		
+		JButton saveButton = new JButton(new ImageIcon(OpenblocksFrame.class.getResource("/com/ardublock/icons/save.png")));
+		saveButton.setToolTipText(uiMessageBundle.getString("ardublock.ui.save"));
+		saveButton.setBorder(null);
 		saveButton.addActionListener(new SaveButtonListener(this));
-		JButton saveAsButton = new JButton(uiMessageBundle.getString("ardublock.ui.saveAs"));
+		
+		JButton saveAsButton = new JButton(new ImageIcon(OpenblocksFrame.class.getResource("/com/ardublock/icons/saveAs.png")));
+		saveAsButton.setToolTipText(uiMessageBundle.getString("ardublock.ui.saveAs"));
+		saveAsButton.setBorder(null);
 		saveAsButton.addActionListener(new SaveAsButtonListener(this));
-		JButton openButton = new JButton(uiMessageBundle.getString("ardublock.ui.load"));
+
+		JButton openButton = new JButton(new ImageIcon(OpenblocksFrame.class.getResource("/com/ardublock/icons/open_48.png")));
+		openButton.setToolTipText(uiMessageBundle.getString("ardublock.ui.load"));
+		openButton.setBorder(null);
 		openButton.addActionListener(new OpenButtonListener(this));
-		JButton generateButton = new JButton(uiMessageBundle.getString("ardublock.ui.upload"));
+		
+		JButton generateButton = new JButton(new ImageIcon(OpenblocksFrame.class.getResource("/com/ardublock/icons/play_48.png")));
+		generateButton.setToolTipText(uiMessageBundle.getString("ardublock.ui.upload"));
+		generateButton.setBorder(null);
 		generateButton.addActionListener(new GenerateCodeButtonListener(this, context));
-		JButton serialMonitorButton = new JButton(uiMessageBundle.getString("ardublock.ui.serialMonitor"));
+		
+		JButton serialMonitorButton = new JButton(new ImageIcon(OpenblocksFrame.class.getResource("/com/ardublock/icons/task-manager-icon.png")));
+		serialMonitorButton.setToolTipText(uiMessageBundle.getString("ardublock.ui.serialMonitor"));
+		serialMonitorButton.setBorder(null);
 		serialMonitorButton.addActionListener(new ActionListener () {
 			public void actionPerformed(ActionEvent e) {
 				context.getEditor().handleSerial();
 			}
 		});
-		JButton saveImageButton = new JButton(uiMessageBundle.getString("ardublock.ui.saveImage"));
+
+		JButton saveImageButton = new JButton(new ImageIcon(OpenblocksFrame.class.getResource("/com/ardublock/icons/photo_3_48.png")));
+		saveImageButton.setToolTipText(uiMessageBundle.getString("ardublock.ui.saveImage"));
+		saveImageButton.setBorder(null);
 		saveImageButton.addActionListener(new ActionListener () {
 			public void actionPerformed(ActionEvent e) {
 				Dimension size = workspace.getCanvasSize();
@@ -128,7 +155,7 @@ public class OpenblocksFrame extends JFrame
 				workspace.getBlockCanvas().getPageAt(0).getJComponent().paint(g);
 				try{
 					final JFileChooser fc = new JFileChooser();
-					fc.setSelectedFile(new File("ardublock.jpg"));
+					fc.setSelectedFile(new File("airblock.jpg"));
 					int returnVal = fc.showSaveDialog(workspace.getBlockCanvas().getJComponent());
 			        if (returnVal == JFileChooser.APPROVE_OPTION) {
 			            File file = fc.getSelectedFile();
@@ -142,22 +169,40 @@ public class OpenblocksFrame extends JFrame
 			}
 		});
 
-		buttons.add(newButton);
-		buttons.add(saveButton);
-		buttons.add(saveAsButton);
-		buttons.add(openButton);
-		buttons.add(generateButton);
-		buttons.add(serialMonitorButton);
+		bar.setFloatable(false);
+		
+		bar.add(newButton);
+		bar.addSeparator(new Dimension(35, 0));
+
+		bar.add(openButton);
+		bar.addSeparator(new Dimension(35, 0));
+
+		bar.add(saveButton);
+		bar.addSeparator(new Dimension(35, 0));
+		
+		bar.add(saveAsButton);
+		bar.addSeparator(new Dimension(35, 0));
+
+		bar.add(saveImageButton);
+		bar.addSeparator(new Dimension(35, 0));
+
+		bar.add(generateButton);
+		bar.addSeparator(new Dimension(35, 0));
+		
+		bar.add(serialMonitorButton);
+		bar.addSeparator(new Dimension(35, 0));
 
 		JPanel bottomPanel = new JPanel();
-		JButton websiteButton = new JButton(uiMessageBundle.getString("ardublock.ui.website"));
+		JButton websiteButton = new JButton(new ImageIcon(OpenblocksFrame.class.getResource("/com/ardublock/icons/air.png")));
+		websiteButton.setToolTipText(uiMessageBundle.getString("ardublock.ui.website"));
+		websiteButton.setBorder(null);
 		websiteButton.addActionListener(new ActionListener () {
 			public void actionPerformed(ActionEvent e) {
 			    Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
 			    URL url;
 			    if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
 			        try {
-						url = new URL("http://ardublock.com");
+						url = new URL("http://www.air.eco.br/cursos/c/STEPS");
 			            desktop.browse(url.toURI());
 			        } catch (Exception e1) {
 			            e1.printStackTrace();
@@ -166,13 +211,22 @@ public class OpenblocksFrame extends JFrame
 			}
 		});
 		JLabel versionLabel = new JLabel("v " + uiMessageBundle.getString("ardublock.ui.version"));
+
+		bar.add(websiteButton);
 		
-		bottomPanel.add(saveImageButton);
-		bottomPanel.add(websiteButton);
+		buttons.add(bar);
+		
+		painelSuperior.setLayout(new BorderLayout(20, 0));
+		painelSuperior.add(buttons, BorderLayout.CENTER);
+		//painelSuperior.add(new JLabel(new ImageIcon(OpenblocksFrame.class.getResource("/com/ardublock/icons/air.png"))), BorderLayout.EAST);
+
+		
+		//bottomPanel.add(saveImageButton);
+		//bottomPanel.add(websiteButton);
 		bottomPanel.add(versionLabel);
 
 		
-		this.add(buttons, BorderLayout.NORTH);
+		this.add(painelSuperior, BorderLayout.NORTH);
 		this.add(bottomPanel, BorderLayout.SOUTH);
 		this.add(workspace, BorderLayout.CENTER);
 	}
